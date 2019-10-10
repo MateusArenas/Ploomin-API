@@ -21,9 +21,12 @@ Groups: [{
     }],
     Channels: [{Id: 1, Title: 'unit tests', Describer: 'melhor forma para prevenção de bugs.' }]
 }]
+
 '''os canais serão separados sem dependecia dos grupos, pois um grupo pode ser finalizado e um canal não deve ir embora com ele'''
 Channels: [{
-    Id: 1, Title: 'unit tests', Describer: 'melhor forma para prevenção de bugs.',
+    Id: 1, Title: 'unit tests', 
+    Describer: 'melhor forma para prevenção de bugs.',
+    Portals: [ {} ],
     Created: { Group: {Id: 1, Name: 'custom experience'}, Founder: {Id: 12, Name: 'Mateus'}},
     Groups: [{Id: 1, Name: 'custom experience'}, {Id: 3, Name: 'Ploomes'}], #uma coisa incrivel, dentro dos grupos serão criado canais. que serão uma porta para a comunicação com membros de outros grupos
     Members: [{Id: 12, Name: 'Mateus', SquadId: 2, SquadName: 'Product'}}], 
@@ -35,6 +38,12 @@ Channels: [{
         Reply: {Id: 1, Content: 'vcs sabem oque é?'}
     }],
 }]
+
+Portals: [
+    
+]
+
+'''Existirá Portals que serão linkagens  '''
 
 
 @app.route('/groups', methods=['POST'])            
