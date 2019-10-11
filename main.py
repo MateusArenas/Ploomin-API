@@ -24,7 +24,8 @@ Groups: [{
 '''os canais serão separados sem dependecia dos grupos, pois um grupo pode ser finalizado e um canal não deve ir embora com ele'''
 Channels: [{
     Id: 1, Title: 'unit tests', Describer: 'melhor forma para prevenção de bugs.',
-    Created: { Group: {Id: 1, Name: 'custom experience'}, Founder: {Id: 12, Name: 'Mateus'}},
+    Created: { Group: {Id: 1, Name: 'custom experience'}, 
+    Founder: {Id: 12, Name: 'Mateus'}},
     Groups: [{Id: 1, Name: 'custom experience'}, {Id: 3, Name: 'Ploomes'}], #uma coisa incrivel, dentro dos grupos serão criado canais. que serão uma porta para a comunicação com membros de outros grupos
     Members: [{Id: 12, Name: 'Mateus', SquadId: 2, SquadName: 'Product'}}], 
     Date: '', ManagersId: [21, 43, 31, 12],
@@ -35,7 +36,20 @@ Channels: [{
         Reply: {Id: 1, Content: 'vcs sabem oque é?'}
     }],
 }]
-
+'''existirá dois tipos de channels, o channel eo channel anonymous'''
+Portals: [{
+    Id: 1,
+    Content: {
+        ChannelId: 1, ChannelTitle: 'unit tests', ChannelDescriber: 'melhor forma para prevenção de bugs.',
+        Origin: {GroupId: 1, GroupName: 'custom exprience'},
+        Members: [{Id: 12, Name: 'Mateus', SquadId: 2, SquadName: 'Product'}],
+        Groups: [{Id: 1, Name: 'custom experience'}, {Id: 3, Name: 'Ploomes'}],
+    },
+    Creator: {Id: 12, Name: 'Mateus'},
+    Conects: [{GroupId: 1, GroupName: 'custom exprience'}, {GroupId: 2, GroupName: 'Ploomes'}],
+    Dates: {Start: '//', End: '//'},
+    LastView: {Id: 1, Name: 'Mateus', Date: '', GroupId: 1, GroupName: 'custom experience'}
+}]
 
 @app.route('/groups', methods=['POST'])            
 def new_group():
