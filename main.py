@@ -10,51 +10,52 @@ database['USER'] = []
 def ola():
     return 'Olá mundo!'  
 
-Groups: [{
-    Id: 1 , Name: 'custom experience', Members: [{Id: 12, Name: 'Mateus', SquadId: 2, SquadName: 'Product'}}], 
-    Date: '', ManagersId: [21, 43, 31, 12],
-    Messages: [{
-        Id: 2, Date: '', 
-        Watchers: [{Id:21, Name: 'Vitor', ReceivedDate: '', WatchDate: ''}],
-        Content: {PhotoUrl: 'https...', Audio: '....', Archive: '...', Video: '...', Text: 'sim, é muito legal!'},
-        Reply: {Id: 1, Content: 'vcs sabem oque é?'}
+database['Groups'] = [{
+    "Id": 1 , "Name": "custom experience", "Members": [{"Id": 12, "Name": "Mateus", "SquadId": 2, "SquadName": "Product"}], 
+    "Date": "", "ManagersId": [21, 43, 31, 12],
+    "Messages": [{
+        "Id": 2, "Date": "", 
+        "Watchers": [{"Id":21 , "Name": "Vitor", "ReceivedDate": "", "WatchDate": ""}],
+        "Content": {"PhotoUrl": "https...", "Audio": "....", "Archive": "...", "Video": "...", "Text": "sim, é muito legal!"},
+        "Reply": {"Id": 1, "Content": "vcs sabem oque é?"}
     }],
-    Channels: [{Id: 1, Title: 'unit tests', Describer: 'melhor forma para prevenção de bugs.' }]
+    "Channels": [{"Id": 1, "Title": "unit tests", "Describer": "melhor forma para prevenção de bugs." }]
 }]
 
 '''os canais serão separados sem dependecia dos grupos, pois um grupo pode ser finalizado e um canal não deve ir embora com ele'''
-Channels: [{
-    Id: 1, Title: 'unit tests', 
-    Describer: 'melhor forma para prevenção de bugs.',
-    Portals: [ {} ],
-    Created: { Group: {Id: 1, Name: 'custom experience'}, Founder: {Id: 12, Name: 'Mateus'}},
-    Groups: [{Id: 1, Name: 'custom experience'}, {Id: 3, Name: 'Ploomes'}], #uma coisa incrivel, dentro dos grupos serão criado canais. que serão uma porta para a comunicação com membros de outros grupos
-    Members: [{Id: 12, Name: 'Mateus', SquadId: 2, SquadName: 'Product'}}], 
-    Date: '', ManagersId: [21, 43, 31, 12],
-    Messages: [{
-        Id: 2, Date: '', 
-        Watchers: [{Id:21, Name: 'Vitor', ReceivedDate: '', WatchDate: ''}],
-        Content: {PhotoUrl: 'https...', Audio: '....', Archive: '...', Video: '...', Text: 'sim, é muito legal!'},
-        Reply: {Id: 1, Content: 'vcs sabem oque é?'}
+database['Channels'] = [{
+    "Id": 1, "Title": 'unit tests', 
+    "Describer": 'melhor forma para prevenção de bugs.',
+    "Portals": [ {} ],
+    "Created": { "Group": {"Id": 1, "Name": 'custom experience'}, "Founder": {"Id": 12, "Name": 'Mateus'}},
+    "Groups": [{"Id": 1, "Name": 'custom experience'}, {"Id": 3, "Name": 'Ploomes'}], #uma coisa incrivel, dentro dos grupos serão criado canais. que serão uma porta para a comunicação com membros de outros grupos
+    "Members": [{"Id": 12, "Name": 'Mateus', "SquadId": 2, "SquadName": 'Product'}], 
+    "Date": '', "ManagersId": [21, 43, 31, 12],
+    "Messages": [{
+        "Id": 2, "Date": '', 
+        "Watchers": [{"Id": 21, "Name": 'Vitor', "ReceivedDate": '', "WatchDate": ''}],
+        "Content": {"PhotoUrl": 'https...', "Audio": '....', "Archive": '...', "Video": '...', "Text": 'sim, é muito legal!'},
+        "Reply": {"Id": 1, "Content": 'vcs sabem oque é?'}
     }],
 }]
 
-Portals: [
-    
-]
+print(database['Channels'])
 
 '''Existirá Portals que serão linkagens  '''
 
+@app.route('/groups')                    
+def alunos():
+    return jsonify(database['Groups'])
 
 @app.route('/groups', methods=['POST'])            
 def new_group():
-    new_group = request.json
-    if('name' in novo_aluno.keys()):
-        for aluno in database['ALUNO']:
-            if(aluno['id'] == novo_aluno['id']):
+    res_group = request.json
+    if('Name' in res_group.keys()):
+        for gorup in database['Groups']:
+            if(gorup['Id'] == res_group['Id']):
                 return jsonify({'erro':'id ja utilizada'}), 400
-        database['ALUNO'].append(novo_aluno)
-        return jsonify(database['ALUNO'])
+        database['Groups'].append(res_group)
+        return jsonify(database['Groups'])
     else:
         return jsonify({'erro':'aluno sem nome'}), 400                  
 
