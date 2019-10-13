@@ -1,47 +1,79 @@
+import users 
+from users import UsersNaoExisteException
+
+import tribes
+from tribes import TribesNaoExisteException
+
+import channels
+from channels import ChannelsNaoExisteException
+
+import portals
+from portals import PortalsNaoExisteException
+
 from flask import Flask, jsonify, request
+
+class MainNaoExisteException(Exception):
+    pass
 
 app = Flask(__name__)                              
 
 database = {}
-database['USER'] = []
                                                  
 
 @app.route('/hello')                         
 def ola():
     return 'Olá mundo!'  
 
-database['Groups'] = [{
-    "Id": 1 , "Name": "custom experience", "Members": [{"Id": 12, "Name": "Mateus", "SquadId": 2, "SquadName": "Product"}], 
-    "Date": "", "ManagersId": [21, 43, 31, 12],
-    "Messages": [{
-        "Id": 2, "Date": "", 
-        "Watchers": [{"Id":21 , "Name": "Vitor", "ReceivedDate": "", "WatchDate": ""}],
-        "Content": {"PhotoUrl": "https...", "Audio": "....", "Archive": "...", "Video": "...", "Text": "sim, é muito legal!"},
-        "Reply": {"Id": 1, "Content": "vcs sabem oque é?"}
-    }],
-    "Channels": [{"Id": 1, "Title": "unit tests", "Describer": "melhor forma para prevenção de bugs." }]
-}]
+database['Users'] = users.database_users
+
+database['Tribes'] = tribes.database_tribes
 
 '''os canais serão separados sem dependecia dos grupos, pois um grupo pode ser finalizado e um canal não deve ir embora com ele'''
-database['Channels'] = [{
-    "Id": 1, "Title": 'unit tests', 
-    "Describer": 'melhor forma para prevenção de bugs.',
-    "Portals": [ {} ],
-    "Created": { "Group": {"Id": 1, "Name": 'custom experience'}, "Founder": {"Id": 12, "Name": 'Mateus'}},
-    "Groups": [{"Id": 1, "Name": 'custom experience'}, {"Id": 3, "Name": 'Ploomes'}], #uma coisa incrivel, dentro dos grupos serão criado canais. que serão uma porta para a comunicação com membros de outros grupos
-    "Members": [{"Id": 12, "Name": 'Mateus', "SquadId": 2, "SquadName": 'Product'}], 
-    "Date": '', "ManagersId": [21, 43, 31, 12],
-    "Messages": [{
-        "Id": 2, "Date": '', 
-        "Watchers": [{"Id": 21, "Name": 'Vitor', "ReceivedDate": '', "WatchDate": ''}],
-        "Content": {"PhotoUrl": 'https...', "Audio": '....', "Archive": '...', "Video": '...', "Text": 'sim, é muito legal!'},
-        "Reply": {"Id": 1, "Content": 'vcs sabem oque é?'}
-    }],
-}]
+database['Channels'] = channels.database_channels
 
 print(database['Channels'])
 
 '''Existirá Portals que serão linkagens  '''
+
+database['Portals'] = portals.database_portals
+
+''' ---- U S E R S ----'''
+@app.route('/users')                    
+def getUsers():
+    return users.getUsers()
+
+@app.route('/users', methods=['POST'])            
+def newUser():
+    return users.newUser(request.json)     
+
+''' ---- T R I B E S ----'''
+@app.route('/tribes')                    
+def getTribes():
+    return tribes.getTribes()
+
+@app.route('/tribes', methods=['POST'])            
+def newTribe():
+    return tribes.newTribe(request.json)    
+
+''' ---- C H A N N E L S ----'''
+@app.route('/channels')                    
+def getChannels():
+    return channels.getChannels()
+
+@app.route('/channels', methods=['POST'])            
+def newChannel():
+    return channels.newChannel(request.json)   
+
+''' ---- P O R T A L S ----'''
+@app.route('/portals')                    
+def getPortals():
+    return portals.getPortals()
+
+@app.route('/portals', methods=['POST'])            
+def newPortal():
+    return portals.newPortal(request.json)  
+
+''' ---- ------------------------ ----'''
 
 @app.route('/groups')                    
 def alunos():
