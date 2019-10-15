@@ -1,65 +1,111 @@
+import Users.users as users
+from Users.users import UsersNaoExisteException
+
+import Squads.squads as squads
+from Squads.squads import SquadsNaoExisteException
+
+import Groups.groups as groups
+from Groups.groups import GroupsNaoExisteException
+
+import Channels.channels as channels
+from Channels.channels import ChannelsNaoExisteException
+
+import Portals.portals as portals
+from Portals.portals import PortalsNaoExisteException
+
 from flask import Flask, jsonify, request
+
+class MainNaoExisteException(Exception):
+    pass
 
 app = Flask(__name__)                              
 
-database = {}
-database['USER'] = []
                                                  
 
 @app.route('/hello')                         
 def ola():
     return 'Olá mundo!'  
 
-Groups: [{
-    Id: 1 , Name: 'custom experience', Members: [{Id: 12, Name: 'Mateus', SquadId: 2, SquadName: 'Product'}}], 
-    Date: '', ManagersId: [21, 43, 31, 12],
-    Messages: [{
-        Id: 2, Date: '', 
-        Watchers: [{Id:21, Name: 'Vitor', ReceivedDate: '', WatchDate: ''}],
-        Content: {PhotoUrl: 'https...', Audio: '....', Archive: '...', Video: '...', Text: 'sim, é muito legal!'},
-        Reply: {Id: 1, Content: 'vcs sabem oque é?'}
-    }],
-    Channels: [{Id: 1, Title: 'unit tests', Describer: 'melhor forma para prevenção de bugs.' }]
-}]
+
+
 '''os canais serão separados sem dependecia dos grupos, pois um grupo pode ser finalizado e um canal não deve ir embora com ele'''
-Channels: [{
-    Id: 1, Title: 'unit tests', Describer: 'melhor forma para prevenção de bugs.',
-    Created: { Group: {Id: 1, Name: 'custom experience'}, 
-    Founder: {Id: 12, Name: 'Mateus'}},
-    Groups: [{Id: 1, Name: 'custom experience'}, {Id: 3, Name: 'Ploomes'}], #uma coisa incrivel, dentro dos grupos serão criado canais. que serão uma porta para a comunicação com membros de outros grupos
-    Members: [{Id: 12, Name: 'Mateus', SquadId: 2, SquadName: 'Product'}}], 
-    Date: '', ManagersId: [21, 43, 31, 12],
-    Messages: [{
-        Id: 2, Date: '', 
-        Watchers: [{Id:21, Name: 'Vitor', ReceivedDate: '', WatchDate: ''}],
-        Content: {PhotoUrl: 'https...', Audio: '....', Archive: '...', Video: '...', Text: 'sim, é muito legal!'},
-        Reply: {Id: 1, Content: 'vcs sabem oque é?'}
-    }],
-}]
-'''existirá dois tipos de channels, o channel eo channel anonymous'''
-Portals: [{
-    Id: 1,
-    Content: {
-        ChannelId: 1, ChannelTitle: 'unit tests', ChannelDescriber: 'melhor forma para prevenção de bugs.',
-        Origin: {GroupId: 1, GroupName: 'custom exprience'},
-        Members: [{Id: 12, Name: 'Mateus', SquadId: 2, SquadName: 'Product'}],
-        Groups: [{Id: 1, Name: 'custom experience'}, {Id: 3, Name: 'Ploomes'}],
-    },
-    Creator: {Id: 12, Name: 'Mateus'},
-    Conects: [{GroupId: 1, GroupName: 'custom exprience'}, {GroupId: 2, GroupName: 'Ploomes'}],
-    Dates: {Start: '//', End: '//'},
-    LastView: {Id: 1, Name: 'Mateus', Date: '', GroupId: 1, GroupName: 'custom experience'}
-}]
+
+
+'''Existirá Portals que serão linkagens  '''
+
+
+''' ---- U S E R S ----'''
+@app.route('/users')                    
+def getUsers():
+    return users.getUsers()
+
+@app.route('/users', methods=['POST'])            
+def newUser():
+    return users.newUser(request.json)     
+
+@app.route('/users/<int:user_id>', methods=['GET'])                                                                                                                                                                                       
+def search_user(user_id):                                               
+    return users.search_user(user_id)                                                
+
+@app.route('/users/<int:user_id>', methods=['PUT'])                                                                                                                                                                                       
+def edited_user(user_id):
+    return users.edited_user(request.json, user_id)
+                                                                                   
+@app.route('/users/<int:user_id>', methods=['DELETE'])                                                                                                                                                                                       
+def deleted_user(user_id):
+    return users.deleted_user(user_id)
+
+''' ---- T R I B E S ----'''
+@app.route('/squads')                    
+def getSquads():
+    return squads.getSquads()
+
+@app.route('/squads', methods=['POST'])            
+def newSquad():
+    return squads.newSquad(request.json)    
+
+''' ---- G R O U P S ----'''
+@app.route('/groups')                    
+def getGroups():
+    return groups.getGroups()
+
+@app.route('/groups', methods=['POST'])            
+def newGroup():
+    return groups.newGroup(request.json)    
+
+''' ---- C H A N N E L S ----'''
+@app.route('/channels')                    
+def getChannels():
+    return channels.getChannels()
+
+@app.route('/channels', methods=['POST'])            
+def newChannel():
+    return channels.newChannel(request.json)   
+
+''' ---- P O R T A L S ----'''
+@app.route('/portals')                    
+def getPortals():
+    return portals.getPortals()
+
+@app.route('/portals', methods=['POST'])            
+def newPortal():
+    return portals.newPortal(request.json)  
+
+''' ---- ------------------------ ----'''
+
+@app.route('/groups')                    
+def alunos():
+    return jsonify(database['Groups'])
 
 @app.route('/groups', methods=['POST'])            
 def new_group():
-    new_group = request.json
-    if('name' in novo_aluno.keys()):
-        for aluno in database['ALUNO']:
-            if(aluno['id'] == novo_aluno['id']):
+    res_group = request.json
+    if('Name' in res_group.keys()):
+        for gorup in database['Groups']:
+            if(gorup['Id'] == res_group['Id']):
                 return jsonify({'erro':'id ja utilizada'}), 400
-        database['ALUNO'].append(novo_aluno)
-        return jsonify(database['ALUNO'])
+        database['Groups'].append(res_group)
+        return jsonify(database['Groups'])
     else:
         return jsonify({'erro':'aluno sem nome'}), 400                  
 
