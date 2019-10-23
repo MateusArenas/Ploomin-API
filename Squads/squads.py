@@ -17,7 +17,7 @@ exemple = {
     "Describe": "this squad has responsibility for the product",
     "ChatType": "Squad",
     "ChatId": 1,
-    "Date": ""
+    "Date": "Wed, 23 Oct 2019 00:12:37 GMT"
 }
 
 database.local["Squads"] = [exemple]
