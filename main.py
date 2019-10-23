@@ -56,7 +56,7 @@ def edited_user(user_id):
 def deleted_user(user_id):
     return users.deleted_user(user_id)
 
-''' ---- T R I B E S ----'''
+''' ---- S Q U A D S ----'''
 @app.route('/Squads')                    
 def getSquads():
     return squads.getSquads()
