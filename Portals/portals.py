@@ -10,19 +10,13 @@ import database as database
 class PortalsNaoExisteException(Exception):
     pass
 
-database.local["Portals"] = [{
+exemple = {
     "Id": 1,
-    "Name": "A1",
-    "OriginTribe": { 
-        "Id": 1, 
-        "Name": "custom experience",
-        "Members": [{"Id": 12, "Name": "Mateus", "SquadId": 2, "SquadName": "Product"}], 
-        "Date": "", "ManagersId": [21, 43, 31, 12],
-    },
-    "Tribes": [{"Id": 1, "Name": 'custom experience'}, {"Id": 3, "Name": 'Ploomes'}],
-    "Members": [{"Id": 12, "Name": "Mateus", "SquadId": 2, "SquadName": "Product"}], 
-    "Content": { "Channel": "database['Channels'][0]"},
-}]
+    "Name": "177C",
+    "ChatId": 1,
+}
+
+database.local["Portals"] = [exemple]
 
 def getPortals():
     return jsonify(database.local["Portals"])

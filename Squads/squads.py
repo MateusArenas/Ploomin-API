@@ -10,18 +10,14 @@ import database as database
 class SquadsNaoExisteException(Exception):
     pass
 
-database.local["Squads"] = [{
-    "Id": 1 , "Name": "custom experience", "Members": [{"Id": 12, "Name": "Mateus", "SquadId": 2, "SquadName": "Product"}], 
-    "Date": "", "ManagersId": [21, 43, 31, 12],
-    "Created": {"Id": 2},
-    "Messages": [{
-        "Id": 2, "Date": "", 
-        "Watchers": [{"Id":21 , "Name": "Vitor", "ReceivedDate": "", "WatchDate": ""}],
-        "Content": {"PhotoUrl": "https...", "Audio": "....", "Archive": "...", "Video": "...", "Text": "sim, é muito legal!"},
-        "Reply": {"Id": 1, "Content": "vcs sabem oque é?"}
-    }],
-    "Channels": [{"Id": 1, "Title": "unit tests", "Describer": "melhor forma para prevenção de bugs." }]
-}]
+exemple = {
+    "Name": "Product",
+    "Describe": "this squad has responsibility for the product",
+    "ChatType": "Squad",
+    "ChatId": 1,
+}
+
+database.local["Squads"] = [exemple]
 
 def getSquads():
     return jsonify(database.local["Squads"])

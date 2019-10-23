@@ -10,21 +10,16 @@ import database as database
 class ChannelsNaoExisteException(Exception):
     pass
 
-database.local["Channels"] = [{
-    "Id": 1, "Title": 'unit tests', 
-    "Describer": 'melhor forma para prevenção de bugs.',
-    "Portals": [ { "Id": 1, "Name": "A1" } ],
-    "Created": { "Tribe": {"Id": 1, "Name": 'custom experience'}, "Founder": {"Id": 12, "Name": 'Mateus'}},
-    "Tribes": [{"Id": 1, "Name": 'custom experience'}, {"Id": 3, "Name": 'Ploomes'}], #uma coisa incrivel, dentro dos grupos serão criado canais. que serão uma porta para a comunicação com membros de outros grupos
-    "Members": [{"Id": 12, "Name": 'Mateus', "SquadId": 2, "SquadName": 'Product'}], 
-    "Date": '', "ManagersId": [21, 43, 31, 12],
-    "Messages": [{
-        "Id": 2, "Date": '', 
-        "Watchers": [{"Id": 21, "Name": 'Vitor', "ReceivedDate": '', "WatchDate": ''}],
-        "Content": {"PhotoUrl": 'https...', "Audio": '....', "Archive": '...', "Video": '...', "Text": 'sim, é muito legal!'},
-        "Reply": {"Id": 1, "Content": 'vcs sabem oque é?'}
-    }],
-}]
+exemple = {
+    "Id": 1,
+    "Name": "Product-Marketing",
+    "Describe": "information alignment from squads of Product and Marketing",
+    "ChatType": "Channel",
+    "ChatId": 1,
+}
+
+database.local["Channels"] = [exemple]
+
 def getChannels():
     return jsonify(database.local["Channels"])
 

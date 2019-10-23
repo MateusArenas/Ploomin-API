@@ -13,14 +13,16 @@ import database as database
 class UsersNaoExisteException(Exception):
     pass
 
-database.local["Users"] = [{
+exemple = {
     "Id": 1,
     "Name": "Mateus",
-    "Squad": {"Id": 2, "Name": "Product"},
     "Email": "MateusArenas97@gmail.com",
+    "UserName" : "MateusArenas",
     "Password": "kabhdiu3e3a",
-    "Host": {"Id": 5, "Name": "Matheus Pagani", "Email": "MateusPagani@gmail.com"},
-}]
+    "SquadId": 1,
+}
+
+database.local["Users"] = [exemple]
 
 def getUsers():
     return jsonify(database.local["Users"])

@@ -13,20 +13,21 @@ from Channels.channels import ChannelsNaoExisteException
 import Portals.portals as portals
 from Portals.portals import PortalsNaoExisteException
 
+import Chats.chats as chats
+from Chats.chats import ChatsNaoExisteException
+
+import Messages.messages as messages
+from Messages.messages import MessagesNaoExisteException
+
+import Members.members as members
+from Members.members import MembersNaoExisteException
+
 from flask import Flask, jsonify, request
 
 class MainNaoExisteException(Exception):
     pass
 
-app = Flask(__name__)                              
-
-                                                 
-
-@app.route('/hello')                         
-def ola():
-    return 'Olá mundo!'  
-
-
+app = Flask(__name__)                             
 
 '''os canais serão separados sem dependecia dos grupos, pois um grupo pode ser finalizado e um canal não deve ir embora com ele'''
 
@@ -35,79 +36,90 @@ def ola():
 
 
 ''' ---- U S E R S ----'''
-@app.route('/users')                    
+@app.route('/Users')                    
 def getUsers():
     return users.getUsers()
 
-@app.route('/users', methods=['POST'])            
+@app.route('/Users', methods=['POST'])            
 def newUser():
     return users.newUser(request.json)     
 
-@app.route('/users/<int:user_id>', methods=['GET'])                                                                                                                                                                                       
+@app.route('/Users/<int:user_id>', methods=['GET'])                                                                                                                                                                                       
 def search_user(user_id):                                               
     return users.search_user(user_id)                                                
 
-@app.route('/users/<int:user_id>', methods=['PUT'])                                                                                                                                                                                       
+@app.route('/Users/<int:user_id>', methods=['PUT'])                                                                                                                                                                                       
 def edited_user(user_id):
     return users.edited_user(request.json, user_id)
                                                                                    
-@app.route('/users/<int:user_id>', methods=['DELETE'])                                                                                                                                                                                       
+@app.route('/Users/<int:user_id>', methods=['DELETE'])                                                                                                                                                                                       
 def deleted_user(user_id):
     return users.deleted_user(user_id)
 
 ''' ---- T R I B E S ----'''
-@app.route('/squads')                    
+@app.route('/Squads')                    
 def getSquads():
     return squads.getSquads()
 
-@app.route('/squads', methods=['POST'])            
+@app.route('/Squads', methods=['POST'])            
 def newSquad():
     return squads.newSquad(request.json)    
 
 ''' ---- G R O U P S ----'''
-@app.route('/groups')                    
+@app.route('/Groups')                    
 def getGroups():
     return groups.getGroups()
 
-@app.route('/groups', methods=['POST'])            
+@app.route('/Groups', methods=['POST'])            
 def newGroup():
     return groups.newGroup(request.json)    
 
 ''' ---- C H A N N E L S ----'''
-@app.route('/channels')                    
+@app.route('/Channels')                    
 def getChannels():
     return channels.getChannels()
 
-@app.route('/channels', methods=['POST'])            
+@app.route('/Channels', methods=['POST'])            
 def newChannel():
     return channels.newChannel(request.json)   
 
 ''' ---- P O R T A L S ----'''
-@app.route('/portals')                    
+@app.route('/Portals')                    
 def getPortals():
     return portals.getPortals()
 
-@app.route('/portals', methods=['POST'])            
+@app.route('/Portals', methods=['POST'])            
 def newPortal():
     return portals.newPortal(request.json)  
 
-''' ---- ------------------------ ----'''
+''' ---- C H A T S ----'''
+@app.route('/Chats')                    
+def getChats():
+    return chats.getChats()
 
-@app.route('/groups')                    
-def alunos():
-    return jsonify(database['Groups'])
+@app.route('/Chats', methods=['POST'])            
+def newChat():
+    return chats.newChat(request.json) 
 
-@app.route('/groups', methods=['POST'])            
-def new_group():
-    res_group = request.json
-    if('Name' in res_group.keys()):
-        for gorup in database['Groups']:
-            if(gorup['Id'] == res_group['Id']):
-                return jsonify({'erro':'id ja utilizada'}), 400
-        database['Groups'].append(res_group)
-        return jsonify(database['Groups'])
-    else:
-        return jsonify({'erro':'aluno sem nome'}), 400                  
+''' ---- M E S S A G E S ----'''
+@app.route('/Messages')                    
+def getMessages():
+    return messages.getMessages()
+
+@app.route('/Messages', methods=['POST'])            
+def newMessage():
+    return messages.newMessage(request.json)  
+
+''' ---- M E M B E R S ----'''
+@app.route('/Members')                    
+def getMembers():
+    return members.getMembers()
+
+@app.route('/Members', methods=['POST'])            
+def newMember():
+    return members.newMember(request.json)  
+
+''' ---- ------------------------ ----'''       
 
 '''@app.route('/')
 def all():
