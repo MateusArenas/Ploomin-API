@@ -6,15 +6,18 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir) 
 import database as database
+import utils as utils
 
 class SquadsNaoExisteException(Exception):
     pass
 
 exemple = {
+    "Id": 1,
     "Name": "Product",
     "Describe": "this squad has responsibility for the product",
     "ChatType": "Squad",
     "ChatId": 1,
+    "Date": ""
 }
 
 database.local["Squads"] = [exemple]
@@ -24,10 +27,11 @@ def getSquads():
 
 def newSquad(request_json):
     res_squad = request_json
+    res_squad["Date"] = utils.createdDate()
     if('Name' in res_squad.keys()):
         for squad in database.local["Squads"]:
             if(squad['Id'] == res_squad['Id']):
-                return jsonify({'erro':'id ja utilizada'}), 400
+                res_squad["Id"] = utils.createdId(database.local["Squads"])
         database.local["Squads"].append(res_squad)
         return jsonify(database.local["Squads"])
     else:

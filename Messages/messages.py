@@ -7,7 +7,7 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir) 
 import database as database
-
+import utils as utils
 
 
 class MessagesNaoExisteException(Exception):
@@ -19,7 +19,7 @@ exemple = {
     "Content": "Hey guys, I created this channel to align ourselves, about last month.",
     "UserName": "MateusArenas",
     "Email": "MateusArenas97@gmail.com",
-    "Date": "Tue Oct 22 2019 23:09:19 GMT-0300 (Brasilia Standard Time)",
+    "Date": "Wed, 23 Oct 2019 00:12:37 GMT",
 }
 
 database.local["Messages"] = [exemple]
@@ -29,10 +29,11 @@ def getMessages():
 
 def newMessage(request_json):
     res_message = request_json
+    res_message["Date"] = utils.createdDate()
     if('ChatId' in res_message.keys()):
         for message in database.local["Messages"]:
             if(message['Id'] == res_message['Id']):
-                return jsonify({'erro':'id ja utilizada'}), 400
+                res_message["Id"] = utils.createdId(database.local["Messages"])
         database.local["Messages"].append(res_message)
         return jsonify(database.local["Messages"])
     else:

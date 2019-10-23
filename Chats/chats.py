@@ -7,7 +7,7 @@ current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfra
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir) 
 import database as database
-
+import utils as utils
 
 
 class ChatsNaoExisteException(Exception):
@@ -17,6 +17,7 @@ exemple = {
     "Id": 1,
     "TypeId": 1,
     "Type": "Channel",
+    "Date": "Wed, 23 Oct 2019 00:12:37 GMT"
 }
 
 database.local["Chats"] = [exemple]
@@ -26,10 +27,11 @@ def getChats():
 
 def newChat(request_json):
     res_chat = request_json
-    if('ChatId' in res_chat.keys()):
+    res_chat["Id"] = utils.createdDate()
+    if('TypeId' in res_chat.keys()):
         for chat in database.local["Chats"]:
             if(chat['Id'] == res_chat['Id']):
-                return jsonify({'erro':'id ja utilizada'}), 400
+                res_chat["Id"] = utils.createdId(database.local["Chats"])
         database.local["Chats"].append(res_chat)
         return jsonify(database.local["Chats"])
     else:
