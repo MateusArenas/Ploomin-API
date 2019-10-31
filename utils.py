@@ -1,5 +1,6 @@
 
 import datetime as datetime
+import secrets
 
 def createdId(data):
   data_length = len(data)
@@ -9,3 +10,5 @@ def createdId(data):
 def createdDate():
   return datetime.datetime.now()
 
+def createToken():
+  return secrets.token_hex(16)

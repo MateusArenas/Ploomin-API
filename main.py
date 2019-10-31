@@ -1,6 +1,9 @@
 import Users.users as users
 from Users.users import UsersNaoExisteException
 
+import Login.login as login
+from Login.login import LoginNaoExisteException
+
 import Squads.squads as squads
 from Squads.squads import SquadsNaoExisteException
 
@@ -23,17 +26,24 @@ import Members.members as members
 from Members.members import MembersNaoExisteException
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 class MainNaoExisteException(Exception):
     pass
 
-app = Flask(__name__)                             
+app = Flask(__name__)     
+CORS(app)                        
 
 '''os canais serão separados sem dependecia dos grupos, pois um grupo pode ser finalizado e um canal não deve ir embora com ele'''
 
 
 '''Existirá Portals que serão linkagens  '''
 
+''' ---- L O G I N ---- '''
+
+@app.route('/Login', methods=['POST'])            
+def loginUser():
+    return login.login(request.json)    
 
 ''' ---- U S E R S ----'''
 @app.route('/Users')                    

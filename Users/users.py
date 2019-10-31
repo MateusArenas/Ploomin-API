@@ -25,7 +25,7 @@ exemple = {
 database.local["Users"] = [exemple]
 
 def getUsers():
-    return jsonify(database.local["Users"])
+    return jsonify({ "value": database.local["Users"] })
 
 def newUser(request_json):
     print("IdNovo: ", utils.createdId([{ "Id": 1 }]))
@@ -36,7 +36,7 @@ def newUser(request_json):
             if(user['Id'] == res_user['Id']):
                 res_user["Id"] = utils.createdId(database.local["Users"])
         database.local["Users"].append(res_user)
-        return jsonify(database.local["Users"])
+        return jsonify({ "value": database.local["Users"] })
     else:
         return jsonify({'erro':'usuario sem nome'}), 400  
 
