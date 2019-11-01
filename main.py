@@ -43,7 +43,7 @@ CORS(app)
 
 @app.route('/Login', methods=['POST'])            
 def loginUser():
-    return login.login(request.json)    
+    return login.login(request.get_json(force=True))    
 
 ''' ---- U S E R S ----'''
 @app.route('/Users')                    

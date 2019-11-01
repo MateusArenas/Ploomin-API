@@ -12,9 +12,27 @@ import utils as utils
 class LoginNaoExisteException(Exception):
     pass
 
+"""
+var headers = new Headers();
+var logindata = { 
+    "Email": "MateusArenas97@gmail.com",
+    "Password": "kabhdiu3e3a"
+};
+var strify = JSON.stringify(logindata);
+fetch('http://localhost:5002/Login', 
+{ 	method: 'POST', 
+	headers: new Headers({'content-type': 'application/json'}),
+	body: strify,
+})
+.then(response => response.json())
+.then((data) => {
+	console.log(data.value);
+});
+"""
+
 def login(request_json):
     res_user = request_json
-    result = [user for user in database.local["Users"] if user["Email"] == res_user['Email']]
+    result = [user for user in database.local["Users"] if user["Email"] == res_user["Email"]]
     token = utils.createToken()
     if('Email' in res_user.keys() and 'Password' in res_user.keys()):
         if len(result) == 1 and res_user['Password'] == result[0]["Password"]:
