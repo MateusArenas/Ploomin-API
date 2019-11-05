@@ -1,4 +1,5 @@
 
+import database as database
 import datetime as datetime
 import secrets
 
@@ -12,3 +13,17 @@ def createdDate():
 
 def createToken():
   return secrets.token_hex(16)
+
+def validateToken(user_key):
+  if 'Tokens' in database.local.keys():
+    for token in database.local["Tokens"]:
+      if token['UserKey'] == user_key:
+        return True
+  return  False
+
+
+'''
+request.args
+
+É usado para obter os parâmetros da query string.
+'''

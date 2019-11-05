@@ -25,14 +25,19 @@ database.local["Squads"] = [exemple]
 def getSquads():
     return jsonify(database.local["Squads"])
 
-def newSquad(request_json):
-    res_squad = request_json
-    res_squad["Date"] = utils.createdDate()
-    if('Name' in res_squad.keys()):
-        for squad in database.local["Squads"]:
-            if(squad['Id'] == res_squad['Id']):
-                res_squad["Id"] = utils.createdId(database.local["Squads"])
-        database.local["Squads"].append(res_squad)
-        return jsonify(database.local["Squads"])
-    else:
-        return jsonify({'erro':'usuario sem nome'}), 400     
+def newSquad(request):
+    if 'UserKey' in request.headers:
+        user_key = request.headers.get('UserKey')
+        if utils.validateToken(user_key):
+                res_squad = request.json
+                res_squad["Date"] = utils.createdDate()
+                if('Name' in res_squad.keys()):
+                    for squad in database.local["Squads"]:
+                        if(squad['Id'] == res_squad['Id']):
+                            res_squad["Id"] = utils.createdId(database.local["Squads"])
+                    database.local["Squads"].append(res_squad)
+                    return jsonify(res_squad)
+                else:
+                    return jsonify({'erro':'usuario sem nome'}), 400     
+        return jsonify({'erro':'usuario com o token ivalido'}), 400 
+    return jsonify({'erro':'usuario sem token'}), 400  

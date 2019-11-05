@@ -45,6 +45,10 @@ CORS(app)
 def loginUser():
     return login.login(request.get_json(force=True))    
 
+@app.route('/Login/<int:user_id>', methods=['DELETE'])            
+def logoutUser(user_id):
+    return login.logout(user_id)    
+
 ''' ---- U S E R S ----'''
 @app.route('/Users')                    
 def getUsers():
@@ -73,7 +77,7 @@ def getSquads():
 
 @app.route('/Squads', methods=['POST'])            
 def newSquad():
-    return squads.newSquad(request.json)    
+    return squads.newSquad(request)    
 
 ''' ---- G R O U P S ----'''
 @app.route('/Groups')                    
