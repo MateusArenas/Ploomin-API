@@ -1,0 +1,7 @@
+Flask==1.0.3
+Flask-Cors==3.0.8
+Flask-RESTful==0.3.7
+python-secrets==19.10.1
+query-string==2019.4.13
+request==2019.4.13
+requests==2.22.0
